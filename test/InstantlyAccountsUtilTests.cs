@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Soenneker.Instantly.Accounts.Responses;
 using Xunit;
 using Xunit.Abstractions;
-using Soenneker.Instantly.Accounts.Requests;
 
 namespace Soenneker.Instantly.Accounts.Tests;
 
