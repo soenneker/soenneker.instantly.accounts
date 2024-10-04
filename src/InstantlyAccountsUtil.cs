@@ -2,7 +2,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Soenneker.Instantly.Accounts.Abstract;
 using Soenneker.Instantly.Client.Abstract;
-using Soenneker.Instantly.Client;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Threading;
@@ -52,7 +51,7 @@ public class InstantlyAccountsUtil : IInstantlyAccountsUtil
 
         HttpClient client = await _instantlyClient.Get(cancellationToken).NoSync();
 
-        string uri = InstantlyClient.BaseUri + "account/list" + request.ToQueryString();
+        string uri = "account/list" + request.ToQueryString();
 
         InstantlyAccountsResponse? response = await client.SendWithRetryToType<InstantlyAccountsResponse>(HttpMethod.Get, uri, request, cancellationToken: cancellationToken).NoSync();
 
