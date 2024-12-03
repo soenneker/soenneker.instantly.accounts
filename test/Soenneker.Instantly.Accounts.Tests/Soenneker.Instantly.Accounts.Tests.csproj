@@ -29,7 +29,7 @@
         <PackageReference Include="Soenneker.Utils.Test" Version="3.0.252" />
         <PackageReference Include="Soenneker.Tests.FixturedUnit" Version="3.0.1282" />
         <PackageReference Include="Soenneker.Facts.Local" Version="3.0.334" />
-        <PackageReference Include="Soenneker.Facts.Manual" Version="3.0.119" />
+        <PackageReference Include="Soenneker.Facts.Manual" Version="3.0.120" />
     </ItemGroup>
 
     <ItemGroup>
