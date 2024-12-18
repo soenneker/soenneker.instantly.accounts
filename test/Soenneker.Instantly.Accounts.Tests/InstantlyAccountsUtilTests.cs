@@ -5,7 +5,7 @@ using Soenneker.Tests.FixturedUnit;
 using System.Threading.Tasks;
 using Soenneker.Instantly.Accounts.Responses;
 using Xunit;
-using Xunit.Abstractions;
+
 
 namespace Soenneker.Instantly.Accounts.Tests;
 
