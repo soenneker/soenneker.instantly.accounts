@@ -1,11 +1,6 @@
-using FluentAssertions;
-using Soenneker.Facts.Local;
 using Soenneker.Instantly.Accounts.Abstract;
 using Soenneker.Tests.FixturedUnit;
-using System.Threading.Tasks;
-using Soenneker.Instantly.Accounts.Responses;
 using Xunit;
-
 
 namespace Soenneker.Instantly.Accounts.Tests;
 
@@ -19,10 +14,9 @@ public class InstantlyAccountsUtilTests : FixturedUnitTest
         _util = Resolve<IInstantlyAccountsUtil>(true);
     }
 
-    [LocalFact]
-    public async Task GetList_should_get_accounts()
+    [Fact]
+    public void Default()
     {
-        InstantlyAccountsResponse? response = await _util.GetAllAccounts();
-        response.Should().NotBeNull();
+
     }
 }

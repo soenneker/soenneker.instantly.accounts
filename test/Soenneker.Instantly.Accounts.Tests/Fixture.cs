@@ -2,8 +2,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Soenneker.Fixtures.Unit;
-using Soenneker.Instantly.Accounts.Registrars;
 using Soenneker.Utils.Test;
+using Soenneker.Instantly.Accounts.Registrars;
 
 namespace Soenneker.Instantly.Accounts.Tests;
 
@@ -25,6 +25,7 @@ public class Fixture : UnitFixture
 
         IConfiguration config = TestUtil.BuildConfig();
         services.AddSingleton(config);
+
         services.AddInstantlyAccountsUtilAsScoped();
     }
 }
