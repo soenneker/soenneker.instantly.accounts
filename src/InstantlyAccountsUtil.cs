@@ -12,7 +12,6 @@ using Soenneker.Extensions.ValueTask;
 using Soenneker.Instantly.Accounts.Responses;
 using Soenneker.Instantly.Accounts.Requests;
 using Soenneker.Extensions.Enumerable;
-using System.Collections.Generic;
 
 namespace Soenneker.Instantly.Accounts;
 
@@ -53,16 +52,14 @@ public class InstantlyAccountsUtil : IInstantlyAccountsUtil
 
         string uri = "account/list" + request.ToQueryString();
 
-        InstantlyAccountsResponse? response = await client.SendWithRetryToType<InstantlyAccountsResponse>(HttpMethod.Get, uri, request, cancellationToken: cancellationToken).NoSync();
-
-        return response;
+        return await client.SendWithRetryToType<InstantlyAccountsResponse>(HttpMethod.Get, uri, request, cancellationToken: cancellationToken).NoSync();
     }
 
     public async ValueTask<InstantlyAccountsResponse> GetAllAccounts(string? apiKey = null, CancellationToken cancellationToken = default)
     {
         var result = new InstantlyAccountsResponse
         {
-            Accounts = new List<InstantlyAccountResponse>()
+            Accounts = []
         };
 
         var skip = 0;
@@ -84,8 +81,9 @@ public class InstantlyAccountsUtil : IInstantlyAccountsUtil
             request.Skip = skip;
 
             // Fetch the current batch of accounts
-            var response = await GetList(request, cancellationToken);
-            if (response == null || response.Accounts == null)
+            InstantlyAccountsResponse? response = await GetList(request, cancellationToken);
+
+            if (response?.Accounts == null)
             {
                 break; // Exit the loop if no more accounts are returned
             }
