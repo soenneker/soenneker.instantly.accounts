@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Soenneker.Instantly.Accounts.Abstract;
-using Soenneker.Instantly.Client.Registrars;
+using Soenneker.Instantly.ClientUtil.Registrars;
 
 namespace Soenneker.Instantly.Accounts.Registrars;
 
@@ -15,7 +15,7 @@ public static class InstantlyAccountsUtilRegistrar
     /// </summary>
     public static IServiceCollection AddInstantlyAccountsUtilAsSingleton(this IServiceCollection services)
     {
-        services.AddInstantlyClientAsSingleton()
+        services.AddInstantlyOpenApiClientUtilAsSingleton()
                 .TryAddSingleton<IInstantlyAccountsUtil, InstantlyAccountsUtil>();
 
         return services;
@@ -26,7 +26,7 @@ public static class InstantlyAccountsUtilRegistrar
     /// </summary>
     public static IServiceCollection AddInstantlyAccountsUtilAsScoped(this IServiceCollection services)
     {
-        services.AddInstantlyClientAsScoped()
+        services.AddInstantlyOpenApiClientUtilAsSingleton()
                 .TryAddScoped<IInstantlyAccountsUtil, InstantlyAccountsUtil>();
 
         return services;

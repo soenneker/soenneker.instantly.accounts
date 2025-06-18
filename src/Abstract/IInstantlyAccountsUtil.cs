@@ -1,7 +1,6 @@
-using Soenneker.Instantly.Accounts.Requests;
-using Soenneker.Instantly.Accounts.Responses;
 using System.Threading.Tasks;
 using System.Threading;
+using Soenneker.Instantly.OpenApiClient.Api.V2.Accounts;
 
 namespace Soenneker.Instantly.Accounts.Abstract;
 
@@ -10,7 +9,7 @@ namespace Soenneker.Instantly.Accounts.Abstract;
 /// </summary>
 public interface IInstantlyAccountsUtil
 {
-    ValueTask<InstantlyAccountsResponse?> GetList(InstantlyGetAccountsRequest? request = null, CancellationToken cancellationToken = default);
+    ValueTask<AccountsGetResponse?> GetList(int? limit = null, int? skip = null, CancellationToken cancellationToken = default);
 
-    ValueTask<InstantlyAccountsResponse> GetAllAccounts(string? apiKey = null, CancellationToken cancellationToken = default);
+    ValueTask<AccountsGetResponse> GetAllAccounts(CancellationToken cancellationToken = default);
 }
