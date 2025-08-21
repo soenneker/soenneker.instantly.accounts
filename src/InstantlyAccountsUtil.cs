@@ -31,7 +31,7 @@ public sealed class InstantlyAccountsUtil : IInstantlyAccountsUtil
 
         InstantlyOpenApiClient client = await _instantlyOpenApiClientUtil.Get(cancellationToken).NoSync();
 
-        return await client.Api.V2.Accounts.GetAsAccountsGetResponseAsync(config => 
+        return await client.Api.V2.Accounts.GetAsync(config => 
         {
             config.QueryParameters.Limit = limit ?? 10;
             if (skip.HasValue)
@@ -53,7 +53,7 @@ public sealed class InstantlyAccountsUtil : IInstantlyAccountsUtil
         {
             InstantlyOpenApiClient client = await _instantlyOpenApiClientUtil.Get(cancellationToken).NoSync();
 
-            var response = await client.Api.V2.Accounts.GetAsAccountsGetResponseAsync(config => 
+            var response = await client.Api.V2.Accounts.GetAsync(config => 
             {
                 config.QueryParameters.Limit = batchSize;
                 if (!string.IsNullOrEmpty(startingAfter))
