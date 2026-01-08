@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Soenneker.Instantly.Accounts.Abstract;
@@ -24,39 +25,42 @@ public sealed class InstantlyAccountsUtil : IInstantlyAccountsUtil
         _log = config.GetValue<bool>("Instantly:LogEnabled");
     }
 
-    public async ValueTask<AccountsGetResponse?> GetList(int? limit = null, int? skip = null, CancellationToken cancellationToken = default)
+    public async ValueTask<AccountsGetResponse?> GetList(int? limit = null, DateTimeOffset? skip = null, CancellationToken cancellationToken = default)
     {
         if (_log)
             _logger.LogDebug("Getting accounts from Instantly...");
 
-        InstantlyOpenApiClient client = await _instantlyOpenApiClientUtil.Get(cancellationToken).NoSync();
+        InstantlyOpenApiClient client = await _instantlyOpenApiClientUtil.Get(cancellationToken)
+                                                                         .NoSync();
 
-        return await client.Api.V2.Accounts.GetAsync(config => 
+        return await client.Api.V2.Accounts.GetAsync(config =>
         {
             config.QueryParameters.Limit = limit ?? 10;
+
             if (skip.HasValue)
-                config.QueryParameters.StartingAfter = skip.ToString();
+                config.QueryParameters.StartingAfter = skip;
         }, cancellationToken);
     }
 
-    public async ValueTask<AccountsGetResponse> GetAllAccounts(CancellationToken cancellationToken = default)
+    public async ValueTask<AccountsGetResponse> GetAllAccounts(DateTimeOffset? startingAfter = null, CancellationToken cancellationToken = default)
     {
         var result = new AccountsGetResponse
         {
             Items = []
         };
 
-        var startingAfter = "";
         const int batchSize = 100;
 
         while (true)
         {
-            InstantlyOpenApiClient client = await _instantlyOpenApiClientUtil.Get(cancellationToken).NoSync();
+            InstantlyOpenApiClient client = await _instantlyOpenApiClientUtil.Get(cancellationToken)
+                                                                             .NoSync();
 
-            var response = await client.Api.V2.Accounts.GetAsync(config => 
+            AccountsGetResponse? response = await client.Api.V2.Accounts.GetAsync(config =>
             {
                 config.QueryParameters.Limit = batchSize;
-                if (!string.IsNullOrEmpty(startingAfter))
+
+                if (startingAfter != null)
                     config.QueryParameters.StartingAfter = startingAfter;
             }, cancellationToken);
 
@@ -72,7 +76,7 @@ public sealed class InstantlyAccountsUtil : IInstantlyAccountsUtil
                 break;
             }
 
-            startingAfter = response.NextStartingAfter;
+            startingAfter = DateTimeOffset.Parse(response.NextStartingAfter);
         }
 
         return result;
