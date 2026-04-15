@@ -38,7 +38,10 @@ public sealed class InstantlyAccountsUtil : IInstantlyAccountsUtil
             config.QueryParameters.Limit = limit ?? 10;
 
             if (skip.HasValue)
-                config.QueryParameters.StartingAfter = skip;
+            {
+                config.QueryParameters.StartingAfter = skip.Value.ToUniversalTime()
+                                                           .ToString("yyyy-MM-dd'T'HH:mm:ss.fff'Z'");
+            }
         }, cancellationToken);
     }
 
@@ -61,7 +64,10 @@ public sealed class InstantlyAccountsUtil : IInstantlyAccountsUtil
                 config.QueryParameters.Limit = batchSize;
 
                 if (startingAfter != null)
-                    config.QueryParameters.StartingAfter = startingAfter;
+                {
+                    config.QueryParameters.StartingAfter = startingAfter.Value.ToUniversalTime()
+                                                                        .ToString("yyyy-MM-dd'T'HH:mm:ss.fff'Z'");
+                }
             }, cancellationToken);
 
             if (response?.Items == null)
