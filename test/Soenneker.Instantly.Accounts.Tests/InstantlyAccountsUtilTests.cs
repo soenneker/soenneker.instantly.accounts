@@ -1,20 +1,19 @@
 using Soenneker.Instantly.Accounts.Abstract;
-using Soenneker.Tests.FixturedUnit;
-using Xunit;
+using Soenneker.Tests.HostedUnit;
 
 namespace Soenneker.Instantly.Accounts.Tests;
 
-[Collection("Collection")]
-public class InstantlyAccountsUtilTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public class InstantlyAccountsUtilTests : HostedUnitTest
 {
     private readonly IInstantlyAccountsUtil _util;
 
-    public InstantlyAccountsUtilTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public InstantlyAccountsUtilTests(Host host) : base(host)
     {
         _util = Resolve<IInstantlyAccountsUtil>(true);
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
