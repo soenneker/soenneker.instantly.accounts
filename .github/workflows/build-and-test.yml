@@ -38,7 +38,7 @@ jobs:
         run: dotnet build test/Soenneker.Instantly.Accounts.Tests/Soenneker.Instantly.Accounts.Tests.csproj --configuration Release --no-restore --verbosity minimal
 
       - name: Test
-        run: dotnet test test/Soenneker.Instantly.Accounts.Tests/Soenneker.Instantly.Accounts.Tests.csproj --configuration Release --no-build --no-restore --verbosity minimal
+        run: dotnet test --project test/Soenneker.Instantly.Accounts.Tests/Soenneker.Instantly.Accounts.Tests.csproj --configuration Release --no-build --no-restore --verbosity minimal
 
       - name: Pack
         run: dotnet pack src/Soenneker.Instantly.Accounts/Soenneker.Instantly.Accounts.csproj --configuration Release --no-build --no-restore --output . --verbosity minimal
