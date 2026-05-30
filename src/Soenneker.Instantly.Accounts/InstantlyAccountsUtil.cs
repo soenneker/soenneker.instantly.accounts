@@ -8,6 +8,7 @@ using System.Threading;
 using Soenneker.Extensions.ValueTask;
 using Soenneker.Instantly.OpenApiClient;
 using Soenneker.Instantly.OpenApiClient.Api.V2.Accounts;
+using Soenneker.Instantly.OpenApiClient.Models;
 
 namespace Soenneker.Instantly.Accounts;
 
@@ -25,7 +26,7 @@ public sealed class InstantlyAccountsUtil : IInstantlyAccountsUtil
         _log = config.GetValue<bool>("Instantly:LogEnabled");
     }
 
-    public async ValueTask<AccountsGetResponse?> GetList(int? limit = null, DateTimeOffset? skip = null, CancellationToken cancellationToken = default)
+    public async ValueTask<ListAccount200?> GetList(int? limit = null, DateTimeOffset? skip = null, CancellationToken cancellationToken = default)
     {
         if (_log)
             _logger.LogDebug("Getting accounts from Instantly...");
@@ -45,9 +46,9 @@ public sealed class InstantlyAccountsUtil : IInstantlyAccountsUtil
         }, cancellationToken);
     }
 
-    public async ValueTask<AccountsGetResponse> GetAllAccounts(DateTimeOffset? startingAfter = null, CancellationToken cancellationToken = default)
+    public async ValueTask<ListAccount200> GetAllAccounts(DateTimeOffset? startingAfter = null, CancellationToken cancellationToken = default)
     {
-        var result = new AccountsGetResponse
+        var result = new ListAccount200
         {
             Items = []
         };
@@ -59,7 +60,7 @@ public sealed class InstantlyAccountsUtil : IInstantlyAccountsUtil
             InstantlyOpenApiClient client = await _instantlyOpenApiClientUtil.Get(cancellationToken)
                                                                              .NoSync();
 
-            AccountsGetResponse? response = await client.Api.V2.Accounts.GetAsync(config =>
+            ListAccount200? response = await client.Api.V2.Accounts.GetAsync(config =>
             {
                 config.QueryParameters.Limit = batchSize;
 
