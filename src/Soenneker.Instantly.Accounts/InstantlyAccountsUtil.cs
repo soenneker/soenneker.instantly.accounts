@@ -26,7 +26,7 @@ public sealed class InstantlyAccountsUtil : IInstantlyAccountsUtil
         _log = config.GetValue<bool>("Instantly:LogEnabled");
     }
 
-    public async ValueTask<ListAccount200?> GetList(int? limit = null, DateTimeOffset? skip = null, CancellationToken cancellationToken = default)
+    public async ValueTask<ListAccount200Response?> GetList(int? limit = null, DateTimeOffset? skip = null, CancellationToken cancellationToken = default)
     {
         if (_log)
             _logger.LogDebug("Getting accounts from Instantly...");
@@ -46,9 +46,9 @@ public sealed class InstantlyAccountsUtil : IInstantlyAccountsUtil
         }, cancellationToken);
     }
 
-    public async ValueTask<ListAccount200> GetAllAccounts(DateTimeOffset? startingAfter = null, CancellationToken cancellationToken = default)
+    public async ValueTask<ListAccount200Response> GetAllAccounts(DateTimeOffset? startingAfter = null, CancellationToken cancellationToken = default)
     {
-        var result = new ListAccount200
+        var result = new ListAccount200Response
         {
             Items = []
         };
@@ -60,7 +60,7 @@ public sealed class InstantlyAccountsUtil : IInstantlyAccountsUtil
             InstantlyOpenApiClient client = await _instantlyOpenApiClientUtil.Get(cancellationToken)
                                                                              .NoSync();
 
-            ListAccount200? response = await client.Api.V2.Accounts.GetAsync(config =>
+            ListAccount200Response? response = await client.Api.V2.Accounts.GetAsync(config =>
             {
                 config.QueryParameters.Limit = batchSize;
 

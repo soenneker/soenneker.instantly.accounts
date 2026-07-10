@@ -10,7 +10,7 @@ namespace Soenneker.Instantly.Accounts.Abstract;
 /// </summary>
 public interface IInstantlyAccountsUtil
 {
-    ValueTask<ListAccount200?> GetList(int? limit = null, DateTimeOffset? skip = null, CancellationToken cancellationToken = default);
+    ValueTask<ListAccount200Response?> GetList(int? limit = null, DateTimeOffset? skip = null, CancellationToken cancellationToken = default);
 
-    ValueTask<ListAccount200> GetAllAccounts(DateTimeOffset? startingAfter = null, CancellationToken cancellationToken = default);
+    ValueTask<ListAccount200Response> GetAllAccounts(DateTimeOffset? startingAfter = null, CancellationToken cancellationToken = default);
 }
