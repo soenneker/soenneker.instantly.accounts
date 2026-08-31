@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Soenneker.Instantly.Accounts.Abstract;
@@ -12,7 +13,6 @@ using Soenneker.Instantly.OpenApiClient.Models;
 
 namespace Soenneker.Instantly.Accounts;
 
-/// <inheritdoc cref="IInstantlyAccountsUtil"/>
 public sealed class InstantlyAccountsUtil : IInstantlyAccountsUtil
 {
     private readonly IInstantlyOpenApiClientUtil _instantlyOpenApiClientUtil;
@@ -83,7 +83,15 @@ public sealed class InstantlyAccountsUtil : IInstantlyAccountsUtil
                 break;
             }
 
-            startingAfter = DateTimeOffset.Parse(response.NextStartingAfter);
+            if (string.IsNullOrWhiteSpace(response.NextStartingAfter))
+                break;
+
+            DateTimeOffset nextStartingAfter = DateTimeOffset.Parse(response.NextStartingAfter, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
+
+            if (startingAfter.HasValue && nextStartingAfter.ToUniversalTime() == startingAfter.Value.ToUniversalTime())
+                throw new InvalidOperationException("Instantly returned a repeated accounts pagination cursor.");
+
+            startingAfter = nextStartingAfter;
         }
 
         return result;

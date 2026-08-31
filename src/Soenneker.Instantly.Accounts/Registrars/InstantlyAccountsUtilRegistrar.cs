@@ -6,7 +6,7 @@ using Soenneker.Instantly.ClientUtil.Registrars;
 namespace Soenneker.Instantly.Accounts.Registrars;
 
 /// <summary>
-/// A .NET typesafe implementation of Instantly.ai's Accounts API
+/// Registers Instantly sending-account operations.
 /// </summary>
 public static class InstantlyAccountsUtilRegistrar
 {
