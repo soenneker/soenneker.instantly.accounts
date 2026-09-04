@@ -13,6 +13,7 @@ using Soenneker.Instantly.OpenApiClient.Models;
 
 namespace Soenneker.Instantly.Accounts;
 
+/// <inheritdoc cref="IInstantlyAccountsUtil" />
 public sealed class InstantlyAccountsUtil : IInstantlyAccountsUtil
 {
     private readonly IInstantlyOpenApiClientUtil _instantlyOpenApiClientUtil;
